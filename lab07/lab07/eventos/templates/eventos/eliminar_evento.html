@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Evento</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d9534f; /* Color rojo para advertencia */
+        }
+        p {
+            text-align: center;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #d9534f;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #c9302c; /* Color más oscuro al pasar el mouse */
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #0056b3;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Eliminar Evento</h1>
+        <p>¿Estás seguro de que deseas eliminar el evento "<strong>{{ evento.nombre }}</strong>"?</p>
+        <div class="btn-container">
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit">Eliminar</button>
+            </form>
+            <a href="{% url 'listar_mis_eventos' %}">
+                <button type="button">Cancelar</button>
+            </a>
+        </div>
+        <div class="nav">
+            <a href="{% url 'listar_mis_eventos' %}">Volver a Mis Eventos</a>
+        </div>
+    </div>
+</body>
+</html>

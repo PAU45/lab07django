@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        a button {
+            background-color: #dc3545;
+        }
+
+        a button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form method="GET" action="{% url 'dashboard' %}">
+            <label for="event_id">Selecciona un evento:</label>
+            <input type="number" id="event_id" name="event_id" value="{{ event_id }}" required>
+            
+            <label for="user_id">Selecciona un usuario:</label>
+            <input type="number" id="user_id" name="user_id" value="{{ user_id }}" required>
+
+            <button type="submit">Consultar</button>
+        </form>
+
+        <h2>¿Cuántos usuarios están registrados en un evento específico?</h2>
+        <p class="result">Número de usuarios registrados en el evento específico: {{ user_count }}</p>
+
+        <h2>¿Cuántos eventos se están llevando a cabo este mes?</h2>
+        <p class="result">Número de eventos programados: {{ event_count_this_month }}</p>
+
+        <h2>¿Quiénes son los usuarios más activos en términos de participación en eventos?</h2>
+        <ul class="result">
+            {% for user in active_users %}
+                <li>{{ user.nombre }} - Participaciones: {{ user.participation_count }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>¿Cuántos eventos ha organizado un usuario en particular?</h2>
+        <p class="result">Número de eventos organizados: {{ organized_event_count }}</p>
+
+        <a href="{% url 'iniciar_sesion' %}">
+            <button>Regresar a Iniciar Sesión</button>
+        </a>
+    </div>
+</body>
+</html>

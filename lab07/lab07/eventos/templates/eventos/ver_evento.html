@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ evento.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .event-details {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .event-details p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .registrados {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .registrados ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .registrados li {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ evento.nombre }}</h1>
+
+    <div class="event-details">
+        <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+        <p><strong>Lugar:</strong> {{ evento.lugar }}</p>
+        <p><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+        <p><strong>Organizador:</strong> {{ evento.organizador.nombre }}</p>
+    </div>
+
+    <h2>Registrados en este evento:</h2>
+    <div class="registrados">
+        <ul>
+            {% for registro in registros %}
+                <li>{{ registro.usuario.nombre }}</li>
+                <li>{{ registro.usuario.correo }}</li>
+                <li>{{ registro.fecha_registro}}</li>
+            {% empty %}
+                <li>No hay usuarios registrados en este evento.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <nav>
+        <a href="{% url 'listar_mis_eventos' %}">Volver a Mis Eventos</a>
+        <a href="{% url 'listar_eventos_otros' %}">Eventos de Otros Usuarios</a>
+    </nav>
+</body>
+</html>

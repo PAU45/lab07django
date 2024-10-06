@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Eventos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .event-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .btn-custom {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Eventos</h1>
+        <div class="mb-3">
+            <a href="{% url 'crear_evento' %}" class="btn btn-primary">Crear nuevo evento</a>
+            <a href="{% url 'registrar_usuario' %}" class="btn btn-secondary">Registrar usuario</a>
+            <a href="{% url 'iniciar_sesion' %}" class="btn btn-info">Iniciar sesión</a>
+        </div>
+        <ul class="list-group">
+            {% for evento in eventos %}
+                <li class="list-group-item event-item">
+                    <h5>{{ evento.titulo }}</h5>
+                    <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+                    <p><strong>Lugar:</strong> {{ evento.lugar }}</p>
+                    <p><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+                    <a href="{% url 'ver_evento' evento.id %}" class="btn btn-outline-success btn-custom">Ver</a>
+                    <a href="{% url 'eliminar_evento' evento.id %}" class="btn btn-outline-danger btn-custom">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

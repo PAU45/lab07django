@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ evento.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .event-details {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .event-details p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ evento.nombre }}</h1>
+
+    <div class="event-details">
+        <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
+        <p><strong>Lugar:</strong> {{ evento.lugar }}</p>
+        <p><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+        <p><strong>Organizador:</strong> {{ evento.organizador.nombre }}</p>
+    </div>
+    <div>
+        <form action="{% url 'registrar_en_evento' evento.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit">Registrarse</button>
+    </form>
+</div>
+    <h2>Más Información</h2>
+    <p>¡No te pierdas este evento emocionante! Aquí podrás interactuar y conocer a otros participantes.</p>
+
+    <nav>
+        <a href="{% url 'listar_eventos_otros' %}">Volver a Eventos de Otros Usuarios</a>
+        <a href="{% url 'listar_mis_eventos' %}">Volver a Mis Eventos</a>
+    </nav>
+</body>
+</html>

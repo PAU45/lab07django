@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Eventos Inscritos</title>
+</head>
+<body>
+    <h2>Eventos Inscritos</h2>
+    <ul>
+        {% for registro in eventos %}
+            <li>{{ registro.evento.nombre }} - {{ registro.evento.fecha }}</li>
+        {% empty %}
+            <li>No estás inscrito en ningún evento.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'listar_eventos' %}">Ver todos los eventos</a>
+</body>
+</html>

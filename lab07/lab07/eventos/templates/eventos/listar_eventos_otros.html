@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos de Otros Usuarios</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        li:hover {
+            transform: scale(1.02);
+        }
+        .evento-info {
+            flex-grow: 1;
+            margin-right: 15px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Eventos de Otros Usuarios</h1>
+
+    <nav>
+        <a href="{% url 'listar_mis_eventos' %}">Mis Eventos</a>
+        <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+    </nav>
+
+    <ul>
+        {% for evento in eventos %}
+            <li>
+                <div class="evento-info">
+                    <a >{{ evento.nombre }}</a> - Organizado por {{ evento.organizador.nombre }}
+                </div>
+                
+                <form action="{% url 'presentacion_evento' evento.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">ver evento</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No hay eventos disponibles.</li>
+        {% endfor %}
+    </ul>
+
+    <footer>
+        &copy; {{ current_year }} - Todos los derechos reservados.
+    </footer>
+</body>
+</html>

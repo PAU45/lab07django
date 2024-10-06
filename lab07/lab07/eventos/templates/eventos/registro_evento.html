@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Exitoso</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        .registro-info {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .registro-info p {
+            margin: 10px 0;
+        }
+        nav {
+            text-align: center;
+            margin: 20px 0;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .cancelar-boton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        .cancelar-boton:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro Exitoso</h1>
+
+    <div class="registro-info">
+        <p><strong>Usuario:</strong> {{ usuario.nombre }}</p>
+        <p><strong>Evento:</strong> {{ evento.nombre }}</p>
+        <p><strong>Fecha de Registro:</strong> {{ registro.fecha_registro }}</p>
+    </div>
+
+    <form action="{% url 'eliminar_registro' registro.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="cancelar-boton">Cancelar Registro</button>
+    </form>
+
+    <nav>
+        <a href="{% url 'listar_mis_eventos' %}">Mis Eventos</a>
+        <a href="{% url 'listar_eventos_otros' %}">Eventos de Otros Usuarios</a>
+    </nav>
+</body>
+</html>

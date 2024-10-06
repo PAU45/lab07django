@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Eventos</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        p{
+            color: #333;
+            font-size: 25px;
+            text-align: center;  
+        }
+
+        h1 {
+            color: #333;
+           font-size: 30px;
+            text-align: center;
+        }
+
+        nav {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            background-color: rgb(59, 118, 255);
+            transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li div {
+            flex-grow: 1;
+        }
+
+        li a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            background-color: #007bff;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        li:hover {
+    background-color: #f0f8ff; /* Color de fondo al pasar el mouse */
+    transform: scale(1.02); /* Aumenta ligeramente el tamaño */
+    transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
+}
+        .button-container {
+            display: flex;
+            justify-content: flex-end; /* Alinear a la derecha */
+            margin-left: auto; /* Asegura que se aleje de la izquierda */
+            gap: 10px; /* Espacio entre botones */
+        }
+
+        .no-event {
+            text-align: center;
+            color: #777;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            li div:last-child {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Mis Eventos</h1>
+    <p>Bienvenido, {{ usuario_nombre }}!</p>
+    <nav>
+        <a href="{% url 'crear_evento' %}">Crear nuevo evento</a>
+        <a href="{% url 'listar_eventos_otros' %}">Eventos de Otros Usuarios</a>
+        <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+        <a href="{% url 'editar_usuario' %}">Editar usuario</a>
+    </nav>
+
+    <ul>
+        {% for evento in eventos %}
+            <li>
+                <div>
+                    <strong>{{ evento.nombre }}</strong><br>
+                    <span>Fecha: {{ evento.fecha }}</span><br>
+                    <span>Descripción: {{ evento.descripcion }}</span>
+                </div>
+                <div class="button-container">
+                    <a href="{% url 'ver_evento' evento.id %}">Ver</a>
+                    <a href="{% url 'eliminar_evento' evento.id %}">Eliminar</a>
+                    <a href="{% url 'editar_evento' evento.id %}">Editar Evento</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="no-event">No tienes eventos creados.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

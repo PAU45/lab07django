@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ evento.nombre }}</title>
+</head>
+<body>
+    <h2>{{ evento.nombre }}</h2>
+    <p>Fecha: {{ evento.fecha }}</p>
+    <p>Lugar: {{ evento.lugar }}</p>
+
+    <h3>Inscritos</h3>
+    <ul>
+        {% for inscrito in inscritos %}
+            <li>{{ inscrito.usuario.username }}</li>
+        {% empty %}
+            <li>No hay inscritos aún.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="inscribir">Inscribirse</button>
+        <button type="submit" name="cancelar">Cancelar Inscripción</button>
+    </form>
+
+    <a href="{% url 'listar_eventos' %}">Volver a la lista de eventos</a>
+</body>
+</html>
