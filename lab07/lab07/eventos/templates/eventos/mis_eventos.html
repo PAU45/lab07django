@@ -6,47 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Eventos</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
-        }
-        p{
-            color: #333;
-            font-size: 25px;
-            text-align: center;  
+            background-color: #707070; /* Fondo gris oscuro */
+            color: #fff; /* Texto blanco */
         }
 
         h1 {
-            color: #333;
-           font-size: 30px;
+            color: #ffc107; /* Amarillo plomo */
+            font-size: 30px;
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #fff; /* Texto blanco */
+            font-size: 20px;
+            text-align: center;  
+            margin-bottom: 40px;
         }
 
         nav {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
-        nav a {
+        nav a,
+        .button {
             margin: 0 10px;
-            text-decoration: none;
-            color: #ffffff;
+            text-decoration: none; /* Eliminar subrayado */
+            color: #000; /* Texto negro */
             padding: 10px 15px;
             border-radius: 5px;
-            border: 1px solid transparent;
-            background-color: rgb(59, 118, 255);
-            transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+            background-color: #ffc107; /* Amarillo plomo */
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+            text-decoration: none; /* Eliminar subrayado */
         }
 
         nav a:hover {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
+            background-color: #e6b800; /* Amarillo más oscuro */
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada al pasar el mouse */
+            text-decoration: none; /* Eliminar subrayado */
         }
 
         ul {
@@ -55,7 +61,7 @@
         }
 
         li {
-            background: #ffffff;
+            background: #333; /* Fondo negro */
             margin: 10px 0;
             padding: 15px;
             border: 1px solid #ddd;
@@ -63,38 +69,55 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        li div {
-            flex-grow: 1;
-        }
-
-        li a {
-            color: #ffffff;
-            text-decoration: none;
-            margin-left: 10px;
-            padding: 10px 15px;
-            border-radius: 5px;
-            border: 1px solid transparent;
-            background-color: #007bff;
-            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         li:hover {
-    background-color: #f0f8ff; /* Color de fondo al pasar el mouse */
-    transform: scale(1.02); /* Aumenta ligeramente el tamaño */
-    transition: background-color 0.3s, transform 0.3s; /* Transiciones suaves */
-}
+            background-color: #444; /* Color de fondo al pasar el mouse */
+            transform: scale(1.02); /* Aumenta ligeramente el tamaño */
+        }
+
+        .event-details {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .event-image {
+            height: 200px; /* Altura fija */
+            width: 200px; /* Ancho fijo */
+            object-fit: cover; /* Mantiene la proporción */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+
         .button-container {
             display: flex;
             justify-content: flex-end; /* Alinear a la derecha */
-            margin-left: auto; /* Asegura que se aleje de la izquierda */
             gap: 10px; /* Espacio entre botones */
+        }
+
+        .button {
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff; /* Azul */
+            color: #fff;
+            text-decoration: none; /* Eliminar subrayado */
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+        }
+
+        .button:hover {
+            background-color: #000000; /* Azul más oscuro */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            text-decoration: none; /* Eliminar subrayado */
         }
 
         .no-event {
             text-align: center;
-            color: #777;
+            color: #777; /* Color gris claro */
+            font-size: 18px;
+            text-decoration: none; /* Eliminar subrayado */
         }
 
         /* Responsive Styles */
@@ -113,30 +136,40 @@
 <body>
     <h1>Mis Eventos</h1>
     <p>Bienvenido, {{ usuario_nombre }}!</p>
+    
     <nav>
         <a href="{% url 'crear_evento' %}">Crear nuevo evento</a>
         <a href="{% url 'listar_eventos_otros' %}">Eventos de Otros Usuarios</a>
         <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
         <a href="{% url 'editar_usuario' %}">Editar usuario</a>
+        <a href="{% url 'mis_compras' %}">Mis Compras</a>
     </nav>
 
     <ul>
         {% for evento in eventos %}
             <li>
-                <div>
+                <div class="event-details">
                     <strong>{{ evento.nombre }}</strong><br>
-                    <span>Fecha: {{ evento.fecha }}</span><br>
-                    <span>Descripción: {{ evento.descripcion }}</span>
+                    <span>Fecha de Inicio: {{ evento.fecha_inicio }}</span><br>
+                    <span>Fecha de Fin: {{ evento.fecha_fin }}</span><br>
+                    <span>Descripción: {{ evento.descripcion }}</span><br>
+                    {% if evento.imagen_url %}
+                        <img src="{{ evento.imagen_url }}" alt="{{ evento.nombre }}" class="event-image"><br>
+                    {% endif %}
                 </div>
                 <div class="button-container">
-                    <a href="{% url 'ver_evento' evento.id %}">Ver</a>
-                    <a href="{% url 'eliminar_evento' evento.id %}">Eliminar</a>
-                    <a href="{% url 'editar_evento' evento.id %}">Editar Evento</a>
+                    <a href="{% url 'ver_evento' evento.id %}" class="button">Ver</a>
+                    <a href="{% url 'eliminar_evento' evento.id %}" class="button" style="background-color: #dc3545;">Eliminar</a>
+                    <a href="{% url 'editar_evento' evento.id %}" class="button" style="background-color: #ffc107; color: #000;">Editar Evento</a>
                 </div>
             </li>
         {% empty %}
             <li class="no-event">No tienes eventos creados.</li>
         {% endfor %}
     </ul>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

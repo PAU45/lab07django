@@ -5,90 +5,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ evento.nombre }}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'C:\Users\paulo\Desktop\hola ayudame\lab07\lab07\eventos\templates\eventos\static\eventos\css\style.css' %}">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #707070;
+            color: #333;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        h1 {
-            color: #333;
+        h1, h2 {
+            color: #ffcc00; /* Amarillo */
+            transition: color 0.3s ease; /* Transición suave */
         }
-
-        .event-details {
-            background: #fff;
+        h1:hover, h2:hover {
+            color: #e6b800; /* Amarillo más oscuro al pasar el ratón */
+        }
+        .event-container {
+            display: flex; /* Flex para alinear la imagen y los detalles */
+            max-width: 800px; /* Ancho máximo */
+            width: 100%; /* Ancho completo hasta el máximo */
+            background-color: #333; /* Fondo negro plomo */
+            color: #fff;
+            border-radius: 8px;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
-
-        .event-details p {
-            margin: 10px 0;
-            line-height: 1.6;
+        .event-image {
+            flex: 1; /* La imagen ocupa un espacio proporcional */
+            margin-right: 20px; /* Espacio entre imagen y texto */
         }
-
+        .event-image img {
+            width: 100%; /* Imagen responsiva */
+            border-radius: 8px;
+        }
+        .event-details {
+            flex: 2; /* Detalles ocupan más espacio */
+        }
         .registrados {
-            background: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px; /* Ancho máximo */
+            width: 100%; /* Ancho completo hasta el máximo */
         }
-
         .registrados ul {
             list-style-type: none;
             padding: 0;
         }
-
         .registrados li {
-            margin: 5px 0;
-            color: #555;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #333;
+            transition: box-shadow 0.3s; /* Transición de sombra */
         }
-
+        .registrados li:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra al pasar el ratón */
+        }
         nav {
             margin-top: 20px;
+            max-width: 800px; /* Ancho máximo */
+            width: 100%; /* Ancho completo hasta el máximo */
+            display: flex;
+            justify-content: space-between; /* Espacio entre enlaces */
         }
-
         nav a {
-            margin-right: 15px;
+            display: inline-block; /* Hacer que los enlaces se comporten como botones */
+            background-color: #ffcc00; /* Amarillo */
+            color: #333; /* Texto en negro plomo */
+            padding: 10px 15px;
+            border-radius: 5px;
             text-decoration: none;
-            color: #007bff;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s; /* Transiciones de fondo y transformación */
         }
-
         nav a:hover {
-            text-decoration: underline;
+            background-color: #e6b800; /* Amarillo más oscuro al pasar el ratón */
+            transform: scale(1.05); /* Escala al pasar el ratón */
+        }
+        button {
+            background-color: #ffcc00; /* Amarillo */
+            border: none;
+            color: #333; /* Texto en negro plomo */
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Transición de color de fondo */
+        }
+        button:hover {
+            background-color: #e6b800; /* Amarillo más oscuro al pasar el ratón */
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .event-container {
+                flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+                align-items: center; /* Centrar el contenido */
+            }
+            .event-image {
+                margin-right: 0; /* Eliminar margen en pantallas pequeñas */
+                margin-bottom: 15px; /* Añadir margen inferior */
+            }
         }
     </style>
 </head>
 <body>
+
+  
     <h1>{{ evento.nombre }}</h1>
 
-    <div class="event-details">
-        <p><strong>Fecha:</strong> {{ evento.fecha }}</p>
-        <p><strong>Lugar:</strong> {{ evento.lugar }}</p>
-        <p><strong>Descripción:</strong> {{ evento.descripcion }}</p>
-        <p><strong>Organizador:</strong> {{ evento.organizador.nombre }}</p>
+    <div class="event-container">
+        <div class="event-image">
+            <img src="{{ evento.imagen_url }}" alt="Imagen de {{ evento.nombre }}">
+        </div>
+        <div class="event-details">
+            <p><strong>Fecha de Inicio:</strong> {{ evento.fecha_inicio }}</p>
+            <p><strong>Fecha de Fin:</strong> {{ evento.fecha_fin }}</p>
+            <p><strong>Lugar:</strong> {{ evento.lugar }}</p>
+            <p><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+            <p><strong>Organizador:</strong> {{ evento.organizador }}</p> 
+            <p><strong>Ubicación:</strong> <a href="{{ evento.ubicacion_url }}">{{ evento.ubicacion_url }}</a></p>
+            <p><strong>Precio:</strong> 
+                {% if evento.es_gratuito %}
+                    Gratuito
+                {% else %}
+                    Normal: {{ evento.precio_normal }} | VIP: {{ evento.precio_vip }}
+                {% endif %}
+            </p>
+        </div>
     </div>
-
+    
     <h2>Registrados en este evento:</h2>
     <div class="registrados">
         <ul>
             {% for registro in registros %}
-                <li>{{ registro.usuario.nombre }}</li>
-                <li>{{ registro.usuario.correo }}</li>
-                <li>{{ registro.fecha_registro}}</li>
+                <li>
+                    <strong>Nombre:</strong> {{ registro.usuario.nombre }} - 
+                    <strong>Correo:</strong> {{ registro.usuario.correo }} - 
+                    <strong>Fecha de Registro:</strong> {{ registro.fecha_registro }}
+                    {% if registro.usuario.id == usuario.id %}
+                        <form action="{% url 'cancelar_registro' registro.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Cancelar</button>
+                        </form>
+                    {% endif %}
+                </li>
             {% empty %}
                 <li>No hay usuarios registrados en este evento.</li>
             {% endfor %}
         </ul>
     </div>
-
+    
     <nav>
+        <a href="{% url 'cancelar_ticket' evento.id %}">Cancelar Ticket</a>
         <a href="{% url 'listar_mis_eventos' %}">Volver a Mis Eventos</a>
         <a href="{% url 'listar_eventos_otros' %}">Eventos de Otros Usuarios</a>
     </nav>
+    <!-- Incluir la barra de navegación -->
 </body>
 </html>

@@ -9,20 +9,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #333; /* Fondo negro */
+            color: #f4f4f4; /* Texto claro */
             margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
-            color: #007bff;
+            color: #ffc107; /* Amarillo plomo */
+            margin-bottom: 20px;
         }
         .registro-info {
-            background: #fff;
+            background: #444; /* Fondo gris oscuro */
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             margin: auto;
         }
@@ -36,7 +37,7 @@
         nav a {
             margin: 0 15px;
             text-decoration: none;
-            color: #007bff;
+            color: #ffc107; /* Amarillo plomo */
             font-weight: bold;
         }
         nav a:hover {
@@ -46,16 +47,17 @@
             display: block;
             margin: 20px auto;
             padding: 10px 15px;
-            background-color: #dc3545;
+            background-color: #dc3545; /* Rojo */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-align: center;
-            text-decoration: none;
+            transition: background 0.3s ease;
+            font-size: 16px;
         }
         .cancelar-boton:hover {
-            background-color: #c82333;
+            background-color: #c82333; /* Rojo más oscuro */
         }
     </style>
 </head>
@@ -65,17 +67,25 @@
     <div class="registro-info">
         <p><strong>Usuario:</strong> {{ usuario.nombre }}</p>
         <p><strong>Evento:</strong> {{ evento.nombre }}</p>
-        <p><strong>Fecha de Registro:</strong> {{ registro.fecha_registro }}</p>
+        <p><strong>Fecha de Registro:</strong> {{ registro.fecha_registro|date:"d/m/Y H:i" }}</p>
+    
+        {% if evento.es_gratuito %}
+            <p><strong>Entrada:</strong> Gratuito</p>
+        {% else %}
+            <p><strong>Precio Seleccionado:</strong> {{ registro.precio }} €</p>
+            <p><strong>Tipo de Entrada:</strong> {{ registro.tipo_de_entrada }}</p>
+        {% endif %}
     </div>
-
-    <form action="{% url 'eliminar_registro' registro.id %}" method="post">
+    
+    <form action="{% url 'cancelar_registro' registro.id %}" method="post">
         {% csrf_token %}
         <button type="submit" class="cancelar-boton">Cancelar Registro</button>
     </form>
-
+    
     <nav>
         <a href="{% url 'listar_mis_eventos' %}">Mis Eventos</a>
         <a href="{% url 'listar_eventos_otros' %}">Eventos de Otros Usuarios</a>
     </nav>
+    
 </body>
 </html>

@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar en Evento</title>
+    <link rel="stylesheet" href="{% static '/eventos/css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #707070; /* Fondo gris oscuro */
+            color: #fff; /* Texto blanco */
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffc107; /* Amarillo plomo */
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            background: #333; /* Fondo negro */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #e0e0e0; /* Color de las etiquetas */
+        }
+
+        input[type="text"],
+        input[type="month"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #444; /* Fondo de campos de entrada */
+            color: #fff; /* Texto blanco */
+        }
+
+        input[type="text"]:focus,
+        input[type="month"]:focus,
+        select:focus {
+            border-color: #ffc107; /* Amarillo plomo al enfocar */
+            outline: none;
+        }
+
+        .submit-button {
+            background-color: #ffc107; /* Amarillo plomo */
+            color: black; /* Texto negro */
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s;
+            width: 100%; /* Botón ocupa todo el ancho */
+            font-size: 16px;
+        }
+
+        .submit-button:hover {
+            background-color: #e6b800; /* Amarillo más oscuro al pasar el mouse */
+            transform: scale(1.05);
+        }
+
+        .tarjeta-imagen {
+    width: 200px; /* Ancho del contenedor */
+    height: 100px; /* Altura del contenedor */
+    display: flex; /* Flexbox para centrar */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    margin: 0 auto; /* Centrar el contenedor */
+    overflow: hidden; /* Oculta el desbordamiento */
+    border: 1px solid #ccc; /* Opcional: para ver el contenedor */
+}
+
+.tarjeta-imagen img {
+    max-width: 100%; /* Limita el ancho de la imagen */
+    max-height: 100%; /* Limita la altura de la imagen */
+    object-fit: contain; /* Mantiene la proporción */
+}
+
+.form-container {
+    margin-top: 20px; /* Espaciado superior */
+    max-width: 400px; /* Ancho máximo del formulario */
+    margin-left: auto; /* Centrar el contenedor */
+    margin-right: auto; /* Centrar el contenedor */
+    background-color: rgb(0, 0, 0); /* Fondo blanco para el formulario */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Registrar en Evento</h1>
+
+    <div class="tarjeta-imagen">
+        <img src="https://pngimg.com/uploads/credit_card/credit_card_PNG109.png" alt="Imagen de tarjeta de crédito">
+    </div>
+
+    <div class="form-container">
+        <form action="{% url 'pago_evento' evento.id %}" method="post" id="formulario-tarjeta">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="numero_tarjeta">Número de Tarjeta:</label>
+                <input type="text" id="numero_tarjeta" name="numero_tarjeta" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre_titular">Nombre del Titular:</label>
+                <input type="text" id="nombre_titular" name="nombre_titular" placeholder="Nombre Apellido" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_expiracion">Fecha de Expiración:</label>
+                <input type="month" id="fecha_expiracion" name="fecha_expiracion" required>
+            </div>
+            <div class="form-group">
+                <label for="codigo_seguridad">Código de Seguridad:</label>
+                <input type="text" id="codigo_seguridad" name="codigo_seguridad" placeholder="123" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_de_entrada">Selecciona tu Tipo de Entrada:</label>
+                <select id="tipo_de_entrada" name="tipo_de_entrada" required>
+                    {% if evento.precio_vip %}
+                        <option value="vip">VIP - {{ evento.precio_vip|floatformat:2 }} €</option>
+                    {% endif %}
+                    {% if evento.precio_normal %}
+                        <option value="normal">Normal - {{ evento.precio_normal|floatformat:2 }} €</option>
+                    {% endif %}
+                    {% if evento.es_gratuito %}
+                        <option value="gratuita">Gratuita</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <button type="submit" class="submit-button">Confirmar Registro</button>
+        </form>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lógica para seleccionar tipo de entrada
+            const tipoEntrada = document.getElementById('tipo_de_entrada');
+            if (tipoEntrada.options.length > 0) {
+                tipoEntrada.selectedIndex = 0; // Selecciona la primera opción disponible
+            }
+
+            // Verificación al enviar el formulario
+            document.getElementById('formulario-tarjeta').addEventListener('submit', function(event) {
+                const numeroTarjeta = document.getElementById('numero_tarjeta').value;
+                const nombreTitular = document.getElementById('nombre_titular').value;
+                const fechaExpiracion = document.getElementById('fecha_expiracion').value;
+                const codigoSeguridad = document.getElementById('codigo_seguridad').value;
+
+                if (!numeroTarjeta || !nombreTitular || !fechaExpiracion || !codigoSeguridad) {
+                    alert('Por favor, completa todos los campos.');
+                    event.preventDefault(); // Evita el envío del formulario
+                }
+            });
+        });
+    </script>
+</body>
+</html>

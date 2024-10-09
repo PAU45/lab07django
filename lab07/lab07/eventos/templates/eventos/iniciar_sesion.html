@@ -7,33 +7,35 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #707070; /* Fondo gris oscuro */
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: #fff; /* Texto blanco */
         }
 
         .container {
-            background-color: #fff;
+            background-color: #333; /* Fondo negro */
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             width: 300px;
             text-align: center;
         }
 
         h1 {
             margin-bottom: 20px;
-            color: #333;
+            color: #ffc107; /* Amarillo plomo */
         }
 
         label {
             display: block;
             margin-bottom: 5px;
             text-align: left;
+            color: #fff; /* Texto blanco */
         }
 
         input[type="email"],
@@ -44,33 +46,48 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            background: #444; /* Fondo de entrada negro */
+            color: #fff; /* Texto blanco */
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #ffc107; /* Amarillo plomo en el foco */
+            outline: none;
         }
 
         button {
-            background-color: #007BFF;
-            color: white;
+            background-color: #ffc107; /* Amarillo plomo */
+            color: black; /* Texto negro */
             padding: 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #e6b800; /* Amarillo más oscuro al pasar el mouse */
         }
 
         p {
             margin-top: 15px;
+            color: #fff; /* Texto blanco */
         }
 
         a {
-            color: #007BFF;
+            color: #ffc107; /* Amarillo plomo */
             text-decoration: none;
+            display: inline-block; /* Hacer que el enlace se comporte como un bloque */
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
 
         a:hover {
-            text-decoration: underline;
+            background-color: #ffc107; /* Azul más oscuro al pasar el mouse */
+            color: white; /* Texto blanco */
         }
     </style>
 </head>
@@ -86,11 +103,11 @@
             <button type="submit">Iniciar Sesión</button>
         </form>
         <div>
-        <p>No tienes cuenta? <a href="{% url 'registrar_usuario' %}">Regístrate aquí</a></p>
-    </div>
-    <div>
-        <a href="{% url 'dashboard' %}">consultas orm</a> 
-    </div>
+            <p>No tienes cuenta? <a href="{% url 'registrar_usuario' %}">Regístrate aquí</a></p>
+        </div>
+        <div>
+            <a href="{% url 'dashboard' %}">Consultas ORM</a> 
+        </div>
     </div>
 </body>
 </html>

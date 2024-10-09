@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tus Compras</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #707070; /* Fondo gris oscuro */
+            color: #fff; /* Texto blanco */
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffc107; /* Amarillo plomo */
+            margin-bottom: 20px;
+        }
+
+        .compras-container {
+            max-width: 800px;
+            margin: auto;
+            background: #333; /* Fondo negro */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        ul {
+            list-style-type: none; /* Quitar viñetas por defecto */
+            padding: 0;
+        }
+
+        li {
+            background: #444; /* Fondo gris claro para cada compra */
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        strong {
+            color: #ffc107; /* Amarillo plomo para los títulos */
+        }
+
+        p {
+            text-align: center; /* Centrar el texto */
+        }
+
+        .boton-eventos {
+    display: inline-block; /* Permite que el botón se ajuste a su contenido */
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #ffc107; /* Color de fondo */
+    color: black; /* Color del texto */
+    text-align: center; /* Centra el texto dentro del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background 0.3s ease, transform 0.2s; /* Efecto de transición */
+    margin: 20px auto; /* Margen superior e inferior, centrado horizontalmente */
+    text-decoration: none; /* Quitar subrayado */
+}
+
+.boton-eventos:hover {
+    background-color: #e6b800; /* Color de fondo al pasar el mouse */
+    transform: scale(1.05); /* Aumenta el tamaño ligeramente */
+}
+
+/* Para centrar el contenedor del botón */
+.compras-container {
+    text-align: center; /* Centra el contenido dentro del contenedor */
+}
+    </style>
+</head>
+<body>
+    <h1>Tus Compras</h1>
+
+    <div class="compras-container">
+        {% if registros %}
+            <ul>
+                {% for registro in registros %}
+                    <li>
+                        <strong>Evento:</strong> {{ registro.evento.nombre }}<br>
+                        <strong>Tipo de Entrada:</strong> {{ registro.tipo_de_entrada }}<br>
+                        <strong>Precio:</strong> {{ registro.precio|floatformat:2 }} €<br>
+                        <strong>Fecha de Registro:</strong> {{ registro.fecha_registro|date:"d/m/Y" }}<br>
+                        <strong>Número de Ticket:</strong> {{ registro.numero_ticket }}<br>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes compras registradas.</p>
+        {% endif %}
+        <a href="{% url 'listar_mis_eventos' %}" class="boton-eventos">Ir a Tus Eventos</a>
+    </div>
+</body>
+</html>

@@ -130,3 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'  # Asegúrate de que coincida con el nombre de la URL de inicio de sesión
 LOGIN_REDIRECT_URL = 'listar_eventos'  # Redirige a la lista de eventos después de iniciar sesión
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

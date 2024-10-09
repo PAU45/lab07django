@@ -9,21 +9,21 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #707070; /* Fondo gris oscuro */
+            color: #fff; /* Texto blanco */
             margin: 0;
             padding: 20px;
         }
         h1 {
             text-align: center;
-            color: #007bff;
+            color: #ffc107; /* Amarillo plomo */
             margin-bottom: 20px;
         }
         .form-container {
-            background: #fff;
+            background: #333; /* Fondo negro */
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             margin: auto;
         }
@@ -34,14 +34,16 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             transition: border-color 0.3s;
+            background: #444; /* Fondo de entrada negro */
+            color: #ffffff; /* Texto blanco */
         }
         .form-container input:focus {
-            border-color: #007bff;
+            border-color: #ffc107; /* Amarillo plomo en el foco */
             outline: none;
         }
         .form-container button {
-            background-color: #007bff;
-            color: white;
+            background-color: #ffc107; /* Amarillo plomo */
+            color: black; /* Texto negro */
             padding: 12px;
             border: none;
             border-radius: 5px;
@@ -50,20 +52,25 @@
             transition: background-color 0.3s;
         }
         .form-container button:hover {
-            background-color: #0056b3;
+            background-color: #e6b800; /* Amarillo más oscuro */
         }
         nav {
             text-align: center;
             margin: 20px 0;
         }
         nav a {
-            margin: 0 10px;
+            display: inline-block; /* Hacer que el enlace se comporte como un bloque */
+            margin: 10px 0;
             text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
+            color: #000000; /* Texto blanco */
+            background-color: #ffc107; /* Azul para los botones */
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
         }
         nav a:hover {
-            text-decoration: underline;
+            background-color: #ffc107; /* Azul más oscuro al pasar el mouse */
+            transform: translateY(-2px); /* Efecto de elevación */
         }
     </style>
 </head>

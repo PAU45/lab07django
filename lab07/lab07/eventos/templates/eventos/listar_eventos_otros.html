@@ -6,100 +6,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos de Otros Usuarios</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #707070;
             color: #333;
-            margin: 0;
-            padding: 20px;
         }
         h1 {
+            color: #000;
             text-align: center;
-            color: #333;
-            font-size: 40px;
-            margin-bottom: 20px;
+            margin: 40px 0;
         }
-        nav {
-            text-align: center;
-            margin-bottom: 20px;
+        .navbar {
+            background-color: #333;
+            border-bottom: 2px solid #ffc107;
+            margin-bottom: 20px; /* Añadido margen inferior al navbar */
         }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #007bff;
+        .nav-link {
+            color: #ffc107 !important;
             font-weight: bold;
         }
-        nav a:hover {
-            text-decoration: underline;
+        .nav-link:hover {
+            color: #fff !important;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .carousel-item {
+            height: 400px;
         }
-        li {
-            background: #fff;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .carousel-item img {
+            height: 400px; /* Altura fija */
+            width: 100%; /* Ancho completo */
+            object-fit: cover; /* Mantiene la proporción */
+        }
+        .card-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            margin-bottom: 40px; /* Añadido margen inferior al contenedor de cards */
         }
-        li:hover {
-            transform: scale(1.02);
-        }
-        .evento-info {
-            flex-grow: 1;
-            margin-right: 15px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
+        .card {
+            width: 300px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #a8a8a8;
+            margin-top: 20px;
         }
-        button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .card img {
+            height: 200px; /* Altura fija para las imágenes de las tarjetas */
+            width: 100%; /* Ancho completo */
+            object-fit: cover; /* Mantiene la proporción */
+            border-radius: 10px 10px 0 0; /* Bordes redondeados en la parte superior */
+        }
+        .card-title {
+            color: #333;
         }
         footer {
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #666;
+            padding: 20px;
+            background-color: #333;
+            color: #ffc107;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 40px; /* Añadido margen superior al footer */
         }
     </style>
 </head>
 <body>
-    <h1>Eventos de Otros Usuarios</h1>
 
-    <nav>
-        <a href="{% url 'listar_mis_eventos' %}">Mis Eventos</a>
-        <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#" style="color: #ffc107;">Eventos</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listar_mis_eventos' %}">Mis Eventos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
-    <ul>
-        {% for evento in eventos %}
-            <li>
-                <div class="evento-info">
-                    <a >{{ evento.nombre }}</a> - Organizado por {{ evento.organizador.nombre }}
+    <!-- Carrusel de Imágenes -->
+    <div id="eventoCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for evento in eventos %}
+                {% if evento.imagen_url %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ evento.imagen_url }}" class="d-block w-100" alt="{{ evento.nombre }}">
+                    </div>
+                {% endif %}
+            {% empty %}
+                <div class="carousel-item active">
+                    <img src="https://via.placeholder.com/800x400" class="d-block w-100" alt="No hay imágenes">
                 </div>
-                
-                <form action="{% url 'presentacion_evento' evento.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">ver evento</button>
-                </form>
-            </li>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#eventoCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+        <a class="carousel-control-next" href="#eventoCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Siguiente</span>
+        </a>
+    </div>
+
+    <div class="card-container">
+        {% for evento in eventos %}
+            <div class="card">
+                {% if evento.imagen_url %}
+                    <img src="{{ evento.imagen_url }}" class="card-img-top" alt="{{ evento.nombre }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ evento.nombre }}</h5>
+                    <p class="card-text"><strong>Fecha de Inicio:</strong> {{ evento.fecha_inicio }}</p>
+                    <p class="card-text"><strong>Fecha de Fin:</strong> {{ evento.fecha_fin }}</p>
+                    <p class="card-text"><strong>Descripción:</strong> {{ evento.descripcion }}</p>
+                    <div class="text-center">
+                        <a href="{% url 'presentacion_evento' evento.id %}" class="btn btn-warning">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
         {% empty %}
-            <li>No hay eventos disponibles.</li>
+            <p>No hay eventos disponibles en este momento.</p>
         {% endfor %}
-    </ul>
+    </div>
 
     <footer>
         &copy; {{ current_year }} - Todos los derechos reservados.
